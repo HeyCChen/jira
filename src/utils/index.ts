@@ -15,6 +15,7 @@ export const cleanObject = (obj: object) => {
     return res;
 }
 
+// 页面加载时执行一次
 export const useMount = (callback: () => void) => {
     useEffect(() => {
         callback()
@@ -33,4 +34,23 @@ export const useDebounce = <V>(value: V, delay?: number) => {
     }, [value, delay]);
 
     return debouncedValue;
+}
+
+// useArray 钩子使用泛型，作用有 返回数组值、清空数组、根据索引删除数组、增加数组元素
+export const useArray = <V>(arrs: V[]) => {
+    const [arrList, setArrList] = useState<V[]>(arrs);
+    return {
+        value: arrList,
+        clear: () => {
+            setArrList([]);
+        },
+        removeIndex: (index: number) => {
+            const newArr = [...arrList];
+            newArr.splice(index, 1);
+            setArrList(newArr);
+        },
+        add: (item: V) => {
+            setArrList([...arrList, item]);
+        }
+    }
 }
