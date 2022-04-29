@@ -22,7 +22,7 @@ export const useMount = (callback: () => void) => {
 }
 
 // 用泛型来规范类型
-export const useDebounce = (value: unknown, delay?: number): any => {
+export const useDebounce = <V>(value: V, delay?: number) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
     // console.log(value.mayExist);
 
