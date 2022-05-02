@@ -38,7 +38,7 @@ export const useDebounce = <V>(value: V, delay?: number) => {
 
 // useArray 钩子使用泛型，作用有 返回数组值、清空数组、根据索引删除数组、增加数组元素
 export const useArray = <V>(arrs: V[]) => {
-    const [arrList, setArrList] = useState<V[]>(arrs);
+    const [arrList, setArrList] = useState(arrs);
     return {
         value: arrList,
         clear: () => {
