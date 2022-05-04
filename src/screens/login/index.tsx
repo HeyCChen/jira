@@ -12,7 +12,7 @@ export const LoginScreen = () => {
     };
 
     const login = (param: { username: string, password: string }) => {
-        fetch(`${apiUrl}/login?`, {
+        fetch(`${apiUrl}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
