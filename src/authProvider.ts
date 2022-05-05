@@ -2,7 +2,12 @@ import { User } from "./screens/projectList/searchPanel";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const localStorageKey = '__auth_provider';
+const localStorageKey = '__auth_provider_token__';
+
+interface AuthForm {
+    username: string;
+    password: string;
+}
 
 export const getToken = () => window.localStorage.getItem(localStorageKey);
 
@@ -11,34 +16,38 @@ export const handleUserResponse = ({ user }: { user: User }) => {
     return user;
 }
 
-export const login = (data: { username: string, password: string }) => {
-    fetch(`${apiUrl}/login`, {
+export const login = (form: AuthForm) => {
+    return fetch(`${apiUrl}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(form),
     }).then(
         async res => {
             if (res.ok) {
-
+                return handleUserResponse(await res.json())
+            } else {
+                return Promise.reject(form);
             }
         })
 }
 
-export const register = (data: { username: string, password: string }) => {
-    fetch(`${apiUrl}/register`, {
+export const register = (form: AuthForm) => {
+    return fetch(`${apiUrl}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(form),
     }).then(
         async res => {
             if (res.ok) {
-
+                return handleUserResponse(await res.json())
+            } else {
+                return Promise.reject(form);
             }
         })
 }
 
-export const logout = () => window.localStorage.removeItem(localStorageKey);
+export const logout = async () => window.localStorage.removeItem(localStorageKey);

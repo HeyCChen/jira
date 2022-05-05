@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { loadServer, DevTools } from 'jira-dev-tool';
 import 'antd/dist/antd.less';
+import { AppProviders } from './context';
 
 loadServer(() => {
   const root = ReactDOM.createRoot(
@@ -13,7 +14,9 @@ loadServer(() => {
   root.render(
     <React.StrictMode>
       <DevTools />
-      <App />
+      <AppProviders>
+        <App />
+      </AppProviders>
     </React.StrictMode>
   );
 })
