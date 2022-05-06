@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { cleanObject, useDebounce, useMount } from '../../utils';
 import { List } from './list';
 import { SearchPanel } from './searchPanel';
-import * as qs from "qs";
 import { useHttp } from '../../utils/http';
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
     const [param, setParam] = useState({
@@ -15,7 +12,7 @@ export const ProjectListScreen = () => {
     const [users, setUsers] = useState([]);
     const [list, setList] = useState([]);
 
-    const debouncedParam = useDebounce(param, 1000);
+    const debouncedParam = useDebounce(param, 200);
 
     const client = useHttp();
 
