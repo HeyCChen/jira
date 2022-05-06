@@ -2,13 +2,13 @@ import { useEffect, useState } from "react"
 
 export const isFalsy = (value: unknown): boolean => value === 0 ? false : !value;
 
-export const cleanObject = (obj: object) => {
+export const isVoid = (value: unknown) => value === undefined || value === null || value === '';
+
+export const cleanObject = (obj: { [key: string]: unknown }) => {
     const res = { ...obj };
     Object.keys(res).forEach(key => {
-        // @ts-ignore
         const value = res[key];
-        if (isFalsy(value)) {
-            // @ts-ignore
+        if (isVoid(value)) {
             delete res[key];
         }
     });
@@ -19,6 +19,8 @@ export const cleanObject = (obj: object) => {
 export const useMount = (callback: () => void) => {
     useEffect(() => {
         callback()
+        // 依赖项里加上callback会无限循环
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 }
 
