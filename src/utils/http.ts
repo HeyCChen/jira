@@ -1,5 +1,6 @@
 import * as qs from 'qs';
 import * as auth from '../authProvider';
+import { useAuth } from '../context/authContext';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -9,7 +10,7 @@ interface Config extends RequestInit {
     data?: object
 }
 
-export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config) => {
+export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config = {}) => {
     const config = {
         method: 'GET',
         headers: {
@@ -40,4 +41,9 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
             }
         }
     )
+}
+
+export const useHttp = () => {
+    const { user } = useAuth();
+    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token });
 }
